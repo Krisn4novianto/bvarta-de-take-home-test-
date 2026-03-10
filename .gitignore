@@ -1,0 +1,68 @@
+# Data folders
+distribute/data/bronze
+distribute/data/silver
+distribute/data/gold
+
+# Build / packages
+*.zip
+*.jar
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv*/
+.venv/
+.env/
+.envrc
+
+# Spark binaries
+spark-4.1.1-bin-hadoop3*
+*.tar
+*.tgz
+*.jar
+
+# Airflow
+airflow/logs/
+airflow.db
+airflow/airflow.db
+airflow-webserver.pid
+airflow-scheduler.pid
+airflow/*.pid
+airflow/*.log
+
+# Hadoop / Spark temp
+hadoop/
+spark/
+tmp/
+temp/
+*.tmp
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Build files
+dist/
+build/
+*.egg-info/

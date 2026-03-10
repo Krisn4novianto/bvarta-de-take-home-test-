@@ -1,0 +1,18 @@
+pipeline:
+
+  raw_to_bronze:
+    raw_events: distribute/data/raw/events
+    bronze_events: distribute/data/bronze/events
+    users_reference: distribute/data/reference/users.csv
+
+  bronze_to_silver:
+    bronze_events: distribute/data/bronze/events
+    bronze_users: distribute/data/bronze/reference
+
+    silver_clean_events: distribute/data/silver/clean/events
+    silver_clean_users: distribute/data/silver/clean/users
+    silver_rejected_events: distribute/data/silver/rejected/events
+
+  silver_to_gold:
+    silver_events: distribute/data/silver/clean/events
+    gold_metrics: distribute/data/gold/metrics
