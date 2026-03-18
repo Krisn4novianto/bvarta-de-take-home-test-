@@ -98,41 +98,283 @@ $env:AIRFLOW_HOME="C:\Users\User\Downloads\bvarta-de-take-home-test\airflow"
 
 ### 4. Start Airflow
 
-Run the following command to start Airflow:
+Panduan ini menjelaskan cara menjalankan **Airflow orchestration** untuk pipeline ini menggunakan **WSL2 + Python virtual environment**.
 
-```powershell
+---
+
+#### 1️⃣ Prerequisites
+
+Pastikan sudah terinstall:
+
+* **WSL2**
+* **Ubuntu (WSL)**
+* **Python 3.10+**
+* **pip**
+
+Install WSL jika belum ada:
+
+```bash
+wsl --install
+```
+
+Masuk ke Ubuntu:
+
+```bash
+wsl -d Ubuntu
+```
+
+---
+
+#### 2️⃣ Clone Repository
+
+Clone project ke komputer kamu.
+
+```bash
+git clone https://github.com/<your-repo>.git
+```
+
+Masuk ke folder project:
+
+```bash
+cd AstraWorld
+```
+
+Jika project berada di Windows path:
+
+```bash
+cd /mnt/c/Users/User/Downloads/AstraWorld
+```
+
+---
+
+#### 3️⃣ Verify Python Installation
+
+Pastikan Python sudah tersedia di WSL.
+
+```bash
+python3 --version
+```
+
+Minimal:
+
+```
+Python 3.10+
+```
+
+Jika belum ada:
+
+```bash
+sudo apt update
+sudo apt install python3 python3-pip python3-venv -y
+```
+
+---
+
+#### 4️⃣ Create Virtual Environment
+
+Buat environment terpisah agar dependency project tidak bercampur dengan sistem.
+
+```bash
+python3 -m venv venv
+```
+
+Aktifkan virtual environment:
+
+```bash
+source venv/bin/activate
+```
+
+Jika ingin reset environment:
+
+```bash
+rm -rf venv
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+#### 5️⃣ Install Apache Airflow
+
+Install Airflow dengan constraint yang sesuai dengan versi Python.
+
+```bash
+pip install "apache-airflow==2.9.3" \
+--constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-$(python3 --version | cut -d ' ' -f 2 | cut -d '.' -f 1-2).txt"
+```
+
+Verifikasi instalasi:
+
+```bash
+airflow version
+```
+
+---
+
+#### 6️⃣ Configure AIRFLOW_HOME
+
+Set folder Airflow agar berada di dalam project.
+
+```bash
+export AIRFLOW_HOME=$(pwd)/airflow
+```
+
+Struktur folder Airflow akan dibuat seperti ini:
+
+```
+AstraWorld
+│
+├── airflow
+│   ├── dags
+│   ├── logs
+│   ├── plugins
+│   └── airflow.db
+```
+
+Airflow akan membaca DAG dari folder:
+
+```
+$AIRFLOW_HOME/dags/
+```
+
+---
+Gas, gue rapihin biar **lebih clean, profesional, dan jelas step-by-step** (biar enak dibaca recruiter juga) 👇
+
+---
+
+#### 7️⃣ Initialize Airflow Database
+
+Jalankan perintah berikut untuk inisialisasi database metadata Airflow:
+
+```bash
+airflow db migrate
+```
+
+---
+
+#### 8️⃣ Start Airflow
+
+Jalankan Airflow dalam mode standalone:
+
+```bash
 airflow standalone
 ```
 
-This command will start:
+Perintah ini akan otomatis menjalankan:
 
-* Airflow scheduler
-* Airflow webserver
-* Airflow metadata database
+* Webserver
+* Scheduler
+* Triggerer
+* Inisialisasi database (jika belum)
+
+> ⚠️ Setelah menjalankan perintah ini, **jangan tutup terminal** karena Airflow berjalan di sini.
+
 
 ---
 
 ### 5. Access the Airflow UI
 
-Open the Airflow UI in your browser:
+### ⚠️ Penting
+
+Pada environment **WSL (Windows Subsystem for Linux)**, **jangan gunakan**:
 
 ```
 http://localhost:8080
 ```
 
-Default credentials:
+---
+
+## ✅ Langkah Akses Web UI
+
+### 1. Buka terminal baru (WSL)
+
+```bash
+wsl -d Ubuntu
+```
+
+---
+
+### 2. Masuk ke project
+
+```bash
+cd /mnt/c/Users/User/Downloads/AstraWorld
+```
+
+---
+
+### 3. Ambil IP Address WSL
+
+```bash
+hostname -I
+```
+
+Contoh output:
 
 ```
-username: admin
-password: admin
+172.26.181.10
 ```
 
-From the UI you can:
+---
 
-* Trigger pipeline runs
-* Monitor execution status
-* Inspect logs
-* Retry failed tasks
+### 4. Buka di browser
+
+```
+http://172.26.181.10:8080
+```
+
+---
+
+## 🔐 Login Airflow
+
+Saat menjalankan:
+
+```bash
+airflow standalone
+```
+
+Akan muncul informasi login seperti berikut:
+
+```
+Login with username: admin
+password: xxxxxxxxx
+```
+
+Gunakan credential tersebut untuk login ke Airflow Web UI.
+
+---
+
+## 🌐 Airflow Web UI
+
+Setelah berhasil login ke **Airflow Web UI**, langkah selanjutnya adalah **menjalankan dan memonitor pipeline**.
+
+---
+
+### 🔍 1. Masuk ke Menu DAGs
+
+Pada halaman utama Airflow:
+
+1. Klik menu **DAGs**
+2. Akan muncul daftar pipeline yang tersedia
+3. Cari DAG berikut:
+
+```
+daily_pipeline
+```
+
+---
+
+### ▶️ 2. Aktifkan DAG
+
+Sebelum menjalankan pipeline, DAG harus diaktifkan terlebih dahulu.
+
+Langkah-langkah:
+
+1. Klik **toggle switch** di sebelah kiri nama DAG
+2. Pastikan status berubah menjadi **ON (aktif)**
+
+⚠️ **Catatan:**
+Jika DAG tidak diaktifkan, pipeline **tidak dapat dijalankan** baik secara manual maupun otomatis.
+
 
 ---
 
@@ -143,7 +385,7 @@ Inside the Airflow UI:
 1. Locate the DAG:
 
 ```
-data_pipeline
+pipeline_dag.py
 ```
 
 2. Enable the DAG.
@@ -167,3 +409,14 @@ From the Airflow UI you can:
 * Retry failed tasks
 * Track pipeline execution duration
 
+### 7. Monitoring Pipeline
+
+Setelah pipeline dijalankan:
+
+1. Klik nama DAG **`daily_pipeline`**
+2. Buka salah satu tampilan berikut:
+
+   * **Grid View**
+   * **Graph View**
+
+Di halaman ini Anda dapat melihat **status setiap task**.
