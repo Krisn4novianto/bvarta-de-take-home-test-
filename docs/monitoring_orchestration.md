@@ -222,10 +222,11 @@ export AIRFLOW_HOME=$(pwd)/airflow
 Struktur folder Airflow akan dibuat seperti ini:
 
 ```
-AstraWorld
+bvarta-de-take-home-test-
 │
 ├── airflow
 │   ├── dags
+│       ├── pipeline_dag.py
 │   ├── logs
 │   ├── plugins
 │   └── airflow.db
@@ -236,9 +237,6 @@ Airflow akan membaca DAG dari folder:
 ```
 $AIRFLOW_HOME/dags/
 ```
-
----
-Gas, gue rapihin biar **lebih clean, profesional, dan jelas step-by-step** (biar enak dibaca recruiter juga) 👇
 
 ---
 
