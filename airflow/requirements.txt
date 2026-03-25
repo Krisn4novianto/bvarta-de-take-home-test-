@@ -1,0 +1,12 @@
+apache-airflow==2.9.3
+apache-airflow-providers-postgres
+
+pyspark==3.5.1
+
+psycopg2-binary
+asyncpg
+
+pandas
+numpy
+pyyaml
+prometheus_client

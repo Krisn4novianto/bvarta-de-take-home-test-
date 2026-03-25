@@ -1,0 +1,20 @@
+pipeline:
+
+  raw_to_bronze:
+    raw_events_path: distribute/data/raw/events
+    bronze_events_path: distribute/data/bronze/events
+    users_reference_path: distribute/data/reference/users.csv
+    bronze_reference_path: distribute/data/bronze/reference
+
+  bronze_to_silver:
+    bronze_events_path: distribute/data/bronze/events
+    bronze_users_path: distribute/data/bronze/reference
+
+    silver_clean_events_path: distribute/data/silver/clean/events
+    silver_clean_users_path: distribute/data/silver/clean/users
+    silver_rejected_events_path: distribute/data/silver/rejected/events
+
+  silver_to_gold:
+    silver_events_path: distribute/data/silver/clean/events
+    silver_users_path: distribute/data/silver/clean/users
+    gold_metrics_path: distribute/data/gold/metrics

@@ -1,0 +1,5 @@
+DB_USER = "postgres"
+DB_PASSWORD = "Krisn@12345"
+DB_HOST = "localhost"
+DB_PORT = "5432"
+DB_NAME = "Bvarta"
